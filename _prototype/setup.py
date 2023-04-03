@@ -38,9 +38,12 @@ if not os.path.isdir(data_storage):
 if os.path.isfile(prvkey_pem) and os.path.isfile(pubkey_pem):
   print("keys found")
 
-  f = open(prvkey_pem,'rt')
-  import_key = ECC.import_key(f.read())
-  print(import_key)
+  try:
+    f = open(prvkey_pem,'rt')
+    import_key = ECC.import_key(f.read())
+    print(import_key)
+  except:
+    print("invalid keys")
 else:
   print("keys missing")
 
