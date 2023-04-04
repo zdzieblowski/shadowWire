@@ -62,15 +62,15 @@ if os.path.isfile(prvkey_pem) and os.path.isfile(pubkey_pem):
     print(import_key)
   except:
     print("invalid keys")
-    gen = input("generate new keys ? [y/N] ")
-    if gen in ("y","Y","n","N",""):
-      if gen in ("y","Y"):
+    gen = input("generate new keys ? [y/N] ").upper()
+    if gen in ("Y","N",""):
+      if gen == "Y":
         del_keys()
         gen_keys()
       else:
         print("exiting")
     else:
-      print("wrong input")
+      print("invalid input")
 else:
   print("keys missing")
   gen_keys()
