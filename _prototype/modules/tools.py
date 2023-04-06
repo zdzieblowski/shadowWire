@@ -1,4 +1,3 @@
-import json
 import os
 
 class tools:
@@ -14,3 +13,18 @@ class tools:
     else:
       print("invalid input\nexiting")
       exit()
+
+  def gen_dirs(self, config):
+    def generate_directories():
+      for index, (key, value) in enumerate(config.data["directories"].items()):
+        os.mkdir(os.path.join(config.alias_storage, value["path"]))
+
+    if not os.path.isdir(config.storage):
+      os.mkdir(config.storage)
+      generate_directories()
+    else:
+      if not os.path.isdir(config.alias_storage):
+        os.mkdir(config.alias_storage)
+        generate_directories()
+      else:
+        generate_directories()

@@ -57,22 +57,7 @@ def gen_keys():
 if arguments.purge:
   print("purging")
 else:
-
-  if not os.path.isdir(config.storage):
-    os.mkdir(config.storage)
-    os.mkdir(config.alias_storage)
-    os.mkdir(config.app_storage)
-    os.mkdir(config.key_storage)
-  else:
-    if not os.path.isdir(config.alias_storage):
-      os.mkdir(config.alias_storage)
-      os.mkdir(config.app_storage)
-      os.mkdir(config.key_storage)
-    else:
-      if not os.path.isdir(config.app_storage):
-        os.mkdir(config.app_storage)
-      if not os.path.isdir(config.key_storage):
-        os.mkdir(config.key_storage)
+  t.gen_dirs(config)
 
   if os.path.isfile(config.private_key) and os.path.isfile(config.public_key):
     print("keys found")
