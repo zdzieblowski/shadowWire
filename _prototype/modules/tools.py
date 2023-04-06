@@ -17,7 +17,9 @@ class tools:
   def gen_dirs(self, config):
     def generate_directories():
       for index, (key, value) in enumerate(config.data["directories"].items()):
-        os.mkdir(os.path.join(config.alias_storage, value["path"]))
+        temp_path = os.path.join(config.alias_storage, value["path"])
+        if not os.path.isdir(temp_path):
+          os.mkdir(temp_path)
 
     if not os.path.isdir(config.storage):
       os.mkdir(config.storage)
