@@ -2,8 +2,7 @@ import argparse
 import os
 
 from modules.config import configuration
-from modules.generators import generators
-from modules.tools import tools
+from modules.common import generators, tools
 
 from Crypto.PublicKey import ECC
 

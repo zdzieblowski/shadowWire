@@ -13,6 +13,7 @@ class generators:
 
     if not os.path.isdir(config.storage):
       os.mkdir(config.storage)
+      os.mkdir(config.alias_storage)
       generate_directories()
     else:
       if not os.path.isdir(config.alias_storage):
@@ -39,3 +40,17 @@ class generators:
 
     print("keys generated")
     print(key)
+
+class tools:
+
+  def ynq(self, question, function, attributes):
+    gen = input(question + " [y/N] ").upper()
+    if gen in ("Y","N",""):
+      if gen == "Y":
+        function(attributes)
+      else:
+        print("exiting")
+        exit()
+    else:
+      print("invalid input\nexiting")
+      exit()
