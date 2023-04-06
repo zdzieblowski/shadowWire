@@ -1,16 +1,16 @@
 import argparse
 import os
 
-from modules.tools import tools
-from modules.generators import generators
 from modules.config import configuration
+from modules.generators import generators
+from modules.tools import tools
 
 from Crypto.PublicKey import ECC
 
 ###
 
-t = tools()
 g = generators()
+t = tools()
 
 ###
 
@@ -35,31 +35,10 @@ else:
 
 ###
 
-#def gen_keys(self, config):
-#  if os.path.isfile(config.private_key):
-#    os.remove(config.private_key)
-#  if os.path.isfile(config.public_key):
-#    os.remove(config.public_key)
-
-#  key = ECC.generate(curve = config.ecc_curve)
-
-#  f = open(config.private_key, "xt")
-#  f.write(key.export_key(format = "PEM"))
-#  f.close()
-
-#  f = open(config.public_key, "xt")
-#  f.write(key.public_key().export_key(format = "PEM"))
-#  f.close()
-
-#  print("keys generated")
-#  print(key)
-
-###
-
 if arguments.purge:
   print("purging")
 else:
-  g.gen_dirs(config)
+  g.dirs(config)
 
   if os.path.isfile(config.private_key) and os.path.isfile(config.public_key):
     print("keys found")
@@ -69,7 +48,7 @@ else:
       print(import_key)
     except:
       print("invalid keys")
-      t.ynq("generate new keys ?", g.gen_keys, config)
+      t.ynq("generate new keys ?", g.keys, config)
   else:
     print("keys missing")
-    g.gen_keys(config)
+    g.keys(config)

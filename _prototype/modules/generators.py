@@ -1,9 +1,10 @@
-from Crypto.PublicKey import ECC
 import os
+
+from Crypto.PublicKey import ECC
 
 class generators:
 
-  def gen_dirs(self, config):
+  def dirs(self, config):
     def generate_directories():
       for index, (key, value) in enumerate(config.data["directories"].items()):
         temp_path = os.path.join(config.alias_storage, value["path"])
@@ -20,7 +21,7 @@ class generators:
       else:
         generate_directories()
 
-  def gen_keys(self, config):
+  def keys(self, config):
     if os.path.isfile(config.private_key):
       os.remove(config.private_key)
     if os.path.isfile(config.public_key):
