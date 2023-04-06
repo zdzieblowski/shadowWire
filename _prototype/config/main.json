@@ -1,23 +1,26 @@
 {
-  "main_storage": ".sw",
   "ecc_curve": "Ed448",
-  "app_storage":
+  "main_storage": ".sw",
+  "directories":
   {
-    "path": "app_data",
-    "files":
+    "app_storage":
     {
-      "contacts": "contacts.json",
-      "all_data": "data.json",
-      "msg_data": "messages.json"
-    }
-  },
-  "key_storage":
-  {
-    "path": "keychain",
-    "files":
+      "path": "app_data",
+      "files":
+      {
+        "all_data": "data.json",
+        "contacts": "contacts.json",
+        "msg_data": "messages.json"
+      }
+    },
+    "key_storage":
     {
-      "private_keyfile": "private.pem",
-      "public_keyfile": "public.pem"
+      "path": "keychain",
+      "files":
+      {
+        "private_keyfile": "private.pem",
+        "public_keyfile": "public.pem"
+      }
     }
   }
 }

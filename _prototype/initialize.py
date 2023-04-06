@@ -1,9 +1,14 @@
 import argparse
 import os
 
+from modules.tools import tools
 from modules.config import configuration
 
 from Crypto.PublicKey import ECC
+
+###
+
+t = tools()
 
 ###
 
@@ -28,14 +33,13 @@ else:
 
 ###
 
-def del_keys():
+def gen_keys():
   if os.path.isfile(config.private_key):
     os.remove(config.private_key)
   if os.path.isfile(config.public_key):
     os.remove(config.public_key)
 
-def gen_keys():
-  key = ECC.generate(curve=config.ecc_curve)
+  key = ECC.generate(curve = config.ecc_curve)
 
   f = open(config.private_key, "xt")
   f.write(key.export_key(format = "PEM"))
@@ -46,34 +50,13 @@ def gen_keys():
   f.close()
 
   print("keys generated")
-
   print(key)
-
-def run_gen():
-  gen = input("generate new keys ? [y/N] ").upper()
-  if gen in ("Y","N",""):
-    if gen == "Y":
-      del_keys()
-      gen_keys()
-    else:
-      print("exiting")
-  else:
-    print("invalid input")
-
-###
-
-#private_key = config.private_key
-#public_key = config.public_key
-
-#print(private_key)
-#print(public_key)
 
 ###
 
 if arguments.purge:
   print("purging")
 else:
-  print("normal run")
 
   if not os.path.isdir(config.storage):
     os.mkdir(config.storage)
@@ -99,7 +82,7 @@ else:
       print(import_key)
     except:
       print("invalid keys")
-      run_gen()
+      t.ynq("generate new keys ?", gen_keys)
   else:
     print("keys missing")
-    run_gen()
+    gen_keys()
