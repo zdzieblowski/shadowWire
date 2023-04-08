@@ -36,18 +36,23 @@ else:
 
 if arguments.purge:
   print("purging")
+  # ADD PURGE HERE
 else:
   g.dirs(config)
 
-  if os.path.isfile(config.private_key) and os.path.isfile(config.public_key):
-    print("keys found")
-    try:
-      f = open(config.private_key, "rt")
-      import_key = ECC.import_key(f.read())
-      print(import_key)
-    except:
-      print("invalid keys")
-      t.ynq("generate new keys ?", g.keys, config)
+  if os.path.isfile(config.private_key):
+    if os.path.isfile(config.public_key):
+      print("keypair found")
+      try:
+        f = open(config.private_key, "rt")
+        import_key = ECC.import_key(f.read())
+        print(import_key)
+      except:
+        print("invalid private key")
+        t.ynq("generate new keypair ?", g.keys, config)
+    else:
+      print("public key missing")
+      # ADD PUBLIC KEY REGENERATION HERE
   else:
-    print("keys missing")
+    print("private key missing")
     g.keys(config)
