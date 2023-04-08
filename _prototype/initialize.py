@@ -1,14 +1,10 @@
 import argparse
-import os
 
 from modules.config import configuration
-from modules.common import generators, tools
-
-from Crypto.PublicKey import ECC
+from modules.common import tools
 
 ###
 
-g = generators()
 t = tools()
 
 ###
@@ -21,7 +17,7 @@ arguments = argument_parser.parse_args()
 
 ###
 
-if os.path.isfile(arguments.config):
+if t.isFile(arguments.config):
   try:
     config = configuration(arguments.config, arguments.alias)
   except Exception as e:
@@ -38,21 +34,21 @@ if arguments.purge:
   print("purging")
   # ADD PURGE HERE
 else:
-  g.dirs(config)
+  t.generateDirs(config)
 
-  if os.path.isfile(config.private_key):
-    if os.path.isfile(config.public_key):
+  if t.isFile(config.private_key):
+    if t.isFile(config.public_key):
       print("keypair found")
       try:
         f = open(config.private_key, "rt")
-        import_key = ECC.import_key(f.read())
+        import_key = t.importKey(f)
         print(import_key)
       except:
         print("invalid private key")
-        t.ynq("generate new keypair ?", g.keys, config)
+        t.noGate("generate new keypair ?", g.keys, config)
     else:
       print("public key missing")
       # ADD PUBLIC KEY REGENERATION HERE
   else:
     print("private key missing")
-    g.keys(config)
+    t.generateKeys(config)
