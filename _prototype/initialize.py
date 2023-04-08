@@ -37,18 +37,22 @@ else:
   t.generateDirs(config)
 
   if t.isFile(config.private_key):
+    try:
+      private = t.importKeys(config.private_key)
+    except:
+      print("invalid private key")
+      t.askGate("generate new keypair ?", "N", t.generateKeys, config)
+
     if t.isFile(config.public_key):
       print("keypair found")
-      try:
-        f = open(config.private_key, "rt")
-        import_key = t.importKey(f)
-        print(import_key)
-      except:
-        print("invalid private key")
-        t.noGate("generate new keypair ?", t.generateKeys, config)
+
+      print(private)
+      print(private.public_key())
     else:
       print("public key missing")
-      # ADD PUBLIC KEY REGENERATION HERE
+      print("generating new public key from existing private key")
+
+      t.generatePublicKey(config, private)
   else:
     print("private key missing")
     t.generateKeys(config)

@@ -52,17 +52,28 @@ class tools:
     print("keys generated")
     print(key)
 
+  def generatePublicKey(self, config, key):
+    f = open(config.public_key, "xt")
+    f.write(key.public_key().export_key(format = "PEM"))
+    f.close()
+
+    print("public key generated")
+    print(key.public_key())
+
   ###
 
-  def importKey(self, key_file):
-    return ECC.import_key(key_file.read())
+  def importKeys(self, key_file):
+    return ECC.import_key(open(key_file, "rt").read())
 
   ###
 
-  def noGate(self, question, function, attributes):
-    gen = input(question + " [y/N] ").upper()
-    if gen in ("Y","N",""):
-      if gen == "Y":
+  def askGate(self, question, default, function, attributes):
+    ask = input(question + (" [Y/n] " if default == "Y" else " [y/N] ")).upper()
+
+    if ask in ["Y","N",""]:
+      let_pass = ["Y",""] if default == "Y" else ["Y"]
+
+      if ask in let_pass:
         function(attributes)
       else:
         print("exiting")
