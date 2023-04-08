@@ -16,6 +16,9 @@ class tools:
   def rmFile(self, path):
     os.remove(path)
 
+  def rmDir(self, path):
+    os.rmdir(path)
+
   ###
 
   def generateDirs(self, config):
@@ -64,6 +67,21 @@ class tools:
 
   def importKeys(self, key_file):
     return ECC.import_key(open(key_file, "rt").read())
+
+  ###
+
+  def purgeAll(self, config):
+    print("purging")
+    for a, (b, c) in enumerate(config.data["directories"].items()):
+      temp_dir = os.path.join(config.alias_storage, c["path"])
+      for d, (e, f) in enumerate(c["files"].items()):
+        temp_file = os.path.join(temp_dir, f)
+        #print(temp_file)
+        if self.isFile(temp_file):
+          self.rmFile(temp_file)
+      if self.isDir(temp_dir):
+        self.rmDir(temp_dir)
+    self.rmDir(config.alias_storage)
 
   ###
 

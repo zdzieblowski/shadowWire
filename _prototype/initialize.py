@@ -31,8 +31,7 @@ else:
 ###
 
 if arguments.purge:
-  print("purging")
-  # ADD PURGE HERE
+  t.purgeAll(config)
 else:
   t.generateDirs(config)
 
@@ -46,8 +45,8 @@ else:
     if t.isFile(config.public_key):
       print("keypair found")
 
-      print(private)
-      print(private.public_key())
+      print("PRIVATE:\n{0}\n".format(private))
+      print("PUBLIC:\n{0}\n".format(private.public_key()))
     else:
       print("public key missing")
       print("generating new public key from existing private key")
