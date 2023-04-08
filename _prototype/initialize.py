@@ -45,7 +45,7 @@ else:
         print(import_key)
       except:
         print("invalid private key")
-        t.noGate("generate new keypair ?", g.keys, config)
+        t.noGate("generate new keypair ?", t.generateKeys, config)
     else:
       print("public key missing")
       # ADD PUBLIC KEY REGENERATION HERE
