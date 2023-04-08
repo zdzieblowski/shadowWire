@@ -72,16 +72,17 @@ class tools:
 
   def purgeAll(self, config):
     print("purging")
-    for a, (b, c) in enumerate(config.data["directories"].items()):
-      temp_dir = os.path.join(config.alias_storage, c["path"])
-      for d, (e, f) in enumerate(c["files"].items()):
-        temp_file = os.path.join(temp_dir, f)
-        #print(temp_file)
-        if self.isFile(temp_file):
-          self.rmFile(temp_file)
-      if self.isDir(temp_dir):
-        self.rmDir(temp_dir)
-    self.rmDir(config.alias_storage)
+    if self.isDir(config.alias_storage):
+      for a, (b, c) in enumerate(config.data["directories"].items()):
+        temp_dir = os.path.join(config.alias_storage, c["path"])
+        for d, (e, f) in enumerate(c["files"].items()):
+          temp_file = os.path.join(temp_dir, f)
+          #print(temp_file)
+          if self.isFile(temp_file):
+            self.rmFile(temp_file)
+        if self.isDir(temp_dir):
+          self.rmDir(temp_dir)
+      self.rmDir(config.alias_storage)
 
   ###
 
