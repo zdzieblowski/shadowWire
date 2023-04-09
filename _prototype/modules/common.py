@@ -1,9 +1,9 @@
 import os
-from Crypto.PublicKey import ECC
+
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
 
 class tools:
-  ###
-
   def isFile(self, path):
     return os.path.isfile(path)
 
@@ -42,22 +42,23 @@ class tools:
     if self.isFile(config.public_key):
       self.rmFile(config.public_key)
 
-    key = ECC.generate(curve = config.ecc_curve)
+    key = rsa.generate_private_key(public_exponent = 65537, key_size = 4096)
 
-    f = open(config.private_key, "xt")
-    f.write(key.export_key(format = "PEM"))
+    # ADD KEYFILE ENCRYPTION
+    f = open(config.private_key, "xb")
+    f.write(key.private_bytes(encoding = serialization.Encoding.PEM, format = serialization.PrivateFormat.TraditionalOpenSSL, encryption_algorithm = serialization.NoEncryption()))
     f.close()
 
-    f = open(config.public_key, "xt")
-    f.write(key.public_key().export_key(format = "PEM"))
+    f = open(config.public_key, "xb")
+    f.write(key.public_key().public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.SubjectPublicKeyInfo))
     f.close()
 
     print("keys generated")
     print(key)
 
   def generatePublicKey(self, config, key):
-    f = open(config.public_key, "xt")
-    f.write(key.public_key().export_key(format = "PEM"))
+    f = open(config.public_key, "xb")
+    f.write(key.public_key().public_bytes(encoding = serialization.Encoding.PEM, format = serialization.PublicFormat.SubjectPublicKeyInfo))
     f.close()
 
     print("public key generated")
@@ -66,7 +67,8 @@ class tools:
   ###
 
   def importKeys(self, key_file):
-    return ECC.import_key(open(key_file, "rt").read())
+    with open(key_file, "rb") as key_data:
+      return serialization.load_pem_private_key(key_data.read(), password = None)
 
   ###
 
