@@ -7,7 +7,7 @@ from modules.common import tools
 
 t = tools()
 
-###
+### MOVE THIS TO TOOLS / BEGIN
 
 argument_parser = argparse.ArgumentParser(description = "shadowWire: initialization script", formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 argument_parser.add_argument("-a", "--alias", help = "define alias", default = "default", metavar = "ALIAS")
@@ -28,7 +28,7 @@ else:
   print("configuration file not found: " + arguments.config)
   exit()
 
-###
+### MOVE THIS TO TOOLS / END
 
 if arguments.purge:
   t.purgeAll(config)
