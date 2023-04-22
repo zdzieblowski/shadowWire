@@ -1,0 +1,23 @@
+{
+    "name": "sw_server",
+    "version": "0.0.1",
+    "description": "shadowWire Server",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/zdzieblowski/shadowWire.git"
+    },
+    "author": "Piotr Zdzieblowski",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/zdzieblowski/shadowWire/issues"
+    },
+    "homepage": "https://github.com/zdzieblowski/shadowWire#readme",
+    "dependencies": {
+      "express": "^4.18.2"
+    }
+  }
+  
