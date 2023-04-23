@@ -5,7 +5,7 @@ const server_port = 60606;
 //
 
 server.use(parser.json());
-server.use(parser.urlencoded({ extended: false}));
+server.use(parser.urlencoded({ extended: false }));
 
 server.post("/read", (req, rep) => {
     rep.json({reply: req.body})
