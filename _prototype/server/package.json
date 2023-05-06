@@ -4,19 +4,19 @@
     "description": "shadowWire server",
     "main": "server.js",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/zdzieblowski/shadowWire.git"
+        "type": "git",
+        "url": "git+https://github.com/zdzieblowski/shadowWire.git"
     },
     "author": "Piotr Zdzieblowski",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/zdzieblowski/shadowWire/issues"
+        "url": "https://github.com/zdzieblowski/shadowWire/issues"
     },
     "homepage": "https://github.com/zdzieblowski/shadowWire#readme",
     "dependencies": {
-      "express": "^4.18.2"
+        "express": "^4.18.2"
     }
-  }
+}
