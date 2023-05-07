@@ -1,4 +1,7 @@
+import requests
 import argparse
+import json
+import base64
 
 from cryptography.hazmat.primitives import serialization
 
@@ -10,16 +13,16 @@ from modules.common import tools
 
 ###
 
+url = "http://localhost:60606/read"
 t = tools()
 
 ###
-### MOVE THIS TO TOOLS / BEGIN
 
-argument_parser = argparse.ArgumentParser(description = "shadowWire: initialization script", formatter_class = argparse.ArgumentDefaultsHelpFormatter)
+argument_parser = argparse.ArgumentParser(description = "shadowWire: message decode script", formatter_class = argparse.ArgumentDefaultsHelpFormatter)
 argument_parser.add_argument("-a", "--alias", help = "define alias", default = "default", metavar = "ALIAS")
 argument_parser.add_argument("-c", "--config", help = "define configuration file", default = "config/main.json", metavar = "CONFIG_FILE")
 argument_parser.add_argument("-l", "--load", help = "load file", metavar = "load file")
-argument_parser.add_argument("-r", "--receiver", help = "receiver's private key", metavar = "PRIVATE_KEY")
+#argument_parser.add_argument("-r", "--receiver", help = "receiver's private key", metavar = "PRIVATE_KEY")
 
 arguments = argument_parser.parse_args()
 
@@ -36,30 +39,46 @@ else:
   print("configuration file not found: " + arguments.config)
   exit()
 
-### MOVE THIS TO TOOLS / END
 ###
 
-if arguments.receiver:
-  if t.isFile(arguments.receiver):
-    try:
-      with open(arguments.receiver, "rb") as key_file:
-        receivers_key = serialization.load_pem_private_key(key_file.read(), password = None)
+print(config.private_key)
+
+if t.isFile(config.private_key):
+  try:
+    with open(config.private_key, "rb") as key_file:
+      receivers_key = serialization.load_pem_private_key(key_file.read(), password = None)
       print(receivers_key)
-    except Exception as e:
-      print(e)
-      print("error reading receiver private key")
-      exit()
+  except Exception as e:
+    print(e)
+    print("error reading receiver private key")
+    exit()
 
-    #message = bytes(input("enter bytes: "), "utf-8")
+  #message = bytes(input("enter bytes: "), "utf-8")
 
-    f = open(arguments.load, "rb")
-    message = f.read()
-    f.close()
+  try:
+    query = {"height": 0}
+    req = requests.post(url, json = query)
 
-    dec_message = receivers_key.decrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
-    print(dec_message)
+    if req.status_code == 200:
+      #print("{0} {1} ".format(req.elapsed, req.text))
 
-    message = ""
+      messages = json.loads(req.text)
+
+      for message in messages:
+        #print(message["data"])
+        #print(bytes(base64.b64decode(message["data"])))
+        #print(bytes(base64.b64decode(message["data"]), "utf-8"))
+        try:
+          dec_message = receivers_key.decrypt(bytes(base64.b64decode(message["data"])), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
+          print(dec_message)
+        except:
+          print("not 4 u")
+
+    else:
+      print(req.status_code)
+
+  except Exception as e:
+    print(e)
 
 else:
   print("recipients public key not found")
