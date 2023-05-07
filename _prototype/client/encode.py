@@ -21,7 +21,6 @@ argument_parser = argparse.ArgumentParser(description = "shadowWire: message enc
 argument_parser.add_argument("-a", "--alias", help = "define alias", default = "default", metavar = "ALIAS")
 argument_parser.add_argument("-c", "--config", help = "define configuration file", default = "config/main.json", metavar = "CONFIG_FILE")
 argument_parser.add_argument("-r", "--recipient", help = "recipient's public key", metavar = "PUBLIC_KEY")
-#argument_parser.add_argument("-s", "--save", help = "save file", metavar = "MESSAGE_FILE")
 arguments = argument_parser.parse_args()
 
 ###
@@ -50,23 +49,20 @@ if arguments.recipient:
       exit()
 
     message = bytes(input("enter message: "), "utf-8")
-    enc_message = recipients_key.encrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm=hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
+    enc_message = recipients_key.encrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
     print(enc_message)
     print(str(enc_message))
 
     try:
-      # port is open
       query = {"message": base64.b64encode(enc_message).decode("utf-8")}
       req = requests.post(url, json = query)
 
       if req.status_code == 200:
-        # all worked
         print("{0} {1} ".format(req.elapsed, req.text))
       else:
         print(req.status_code)
 
     except Exception as e:
-      #port is closed
       print(e)
 
 else:

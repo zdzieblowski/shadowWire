@@ -22,8 +22,6 @@ argument_parser = argparse.ArgumentParser(description = "shadowWire: message dec
 argument_parser.add_argument("-a", "--alias", help = "define alias", default = "default", metavar = "ALIAS")
 argument_parser.add_argument("-c", "--config", help = "define configuration file", default = "config/main.json", metavar = "CONFIG_FILE")
 argument_parser.add_argument("-l", "--load", help = "load file", metavar = "load file")
-#argument_parser.add_argument("-r", "--receiver", help = "receiver's private key", metavar = "PRIVATE_KEY")
-
 arguments = argument_parser.parse_args()
 
 ###
@@ -53,21 +51,14 @@ if t.isFile(config.private_key):
     print("error reading receiver private key")
     exit()
 
-  #message = bytes(input("enter bytes: "), "utf-8")
-
   try:
     query = {"height": 0}
     req = requests.post(url, json = query)
 
     if req.status_code == 200:
-      #print("{0} {1} ".format(req.elapsed, req.text))
-
       messages = json.loads(req.text)
 
       for message in messages:
-        #print(message["data"])
-        #print(bytes(base64.b64decode(message["data"])))
-        #print(bytes(base64.b64decode(message["data"]), "utf-8"))
         try:
           dec_message = receivers_key.decrypt(bytes(base64.b64decode(message["data"])), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
           print(dec_message)

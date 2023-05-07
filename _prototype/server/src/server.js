@@ -13,8 +13,6 @@ server.use(parser.json());
 server.use(parser.urlencoded({ extended: false }));
 
 server.post("/read", (req, rep) => {
-  //console.log("request: download at height: " + req.body.height);
-
   let messages_path = os.homedir() + "/.sws/messages.json";
 
   if (fs.existsSync(messages_path)) {
