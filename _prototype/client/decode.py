@@ -61,7 +61,7 @@ if t.isFile(config.private_key):
       for message in messages:
         try:
           dec_message = receivers_key.decrypt(bytes(base64.b64decode(message["data"])), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
-          print(dec_message)
+          print(dec_message.decode("utf-8"))
         except:
           print("not 4 u")
 
