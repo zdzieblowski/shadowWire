@@ -86,4 +86,4 @@ if t.isFile(config.private_key):
     print(e)
 
 else:
-  print("recipients public key not found")
+  print("recipients private key not found")
