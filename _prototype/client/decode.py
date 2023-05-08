@@ -2,6 +2,7 @@ import requests
 import argparse
 import json
 import base64
+import sys
 
 from cryptography.hazmat.primitives import serialization
 
@@ -58,12 +59,22 @@ if t.isFile(config.private_key):
     if req.status_code == 200:
       messages = json.loads(req.text)
 
+      last = 0
+
       for message in messages:
+        dec_message = []
+        #print(message)
         try:
-          dec_message = receivers_key.decrypt(bytes(base64.b64decode(message["data"])), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
-          print(dec_message.decode("utf-8"))
+          for d in message["data"]:
+            #print(d)
+            dec_message.append(receivers_key.decrypt(bytes(base64.b64decode(str(d))), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None)).decode("utf-8"))
+          if last != 0:
+            sys.stdout.write("\n")
+            last = 0
+          print("%s:\n%s\n" % (message["date"], "".join(dec_message)))
         except:
-          print("not 4 u")
+          sys.stdout.write(".")
+          last = 1
 
     else:
       print(req.status_code)

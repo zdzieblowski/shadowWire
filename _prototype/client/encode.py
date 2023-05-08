@@ -1,3 +1,4 @@
+from datetime import datetime
 import argparse
 import requests
 import base64
@@ -25,6 +26,12 @@ arguments = argument_parser.parse_args()
 
 ###
 
+def chunks(string, size):
+  for start in range(0, len(string), size):
+    yield string[start:start+size]
+
+###
+
 if t.isFile(arguments.config):
   try:
     config = configuration(arguments.config, arguments.alias)
@@ -48,17 +55,27 @@ if arguments.recipient:
       print("error reading recipients public key")
       exit()
 
-    message = bytes(input("enter message: "), "utf-8")
-    enc_message = recipients_key.encrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
-    print(enc_message)
-    print(str(enc_message))
+    message = input("enter message: ")
+    #message = bytes("%s" % input("enter message: "), "utf-8")
+    #print(message)
+
+    enc_message = []
+    iter = 0
+
+    for chunk in chunks(message,446):
+      print(chunk)
+      enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
+      iter = iter + 1
+
+    #enc_message = recipients_key.encrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
 
     try:
-      query = {"message": base64.b64encode(enc_message).decode("utf-8")}
+      query = {"message": enc_message, "date": str(datetime.now())}
+      #query = {"message": base64.b64encode(enc_message).decode("utf-8"), "date": str(datetime.now())}
       req = requests.post(url, json = query)
 
       if req.status_code == 200:
-        print("{0} {1} ".format(req.elapsed, req.text))
+        print("{0} {1}".format(req.elapsed, req.text))
       else:
         print(req.status_code)
 

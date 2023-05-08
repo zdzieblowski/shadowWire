@@ -39,7 +39,7 @@ server.post("/write", (req, rep) => {
 
   if (fs.existsSync(messages_path)) {
     let data = JSON.parse(fs.readFileSync(messages_path));
-    data.messages.push({"height":data.messages.length, "data":req.body.message});
+    data.messages.push({"height":data.messages.length, "date": req.body.date ,"data":req.body.message});
 
     let modified_data = JSON.stringify(data);
     fs.writeFileSync(messages_path, modified_data);
@@ -48,7 +48,7 @@ server.post("/write", (req, rep) => {
     if (!fs.existsSync(messages_dir)) {
       fs.mkdirSync(messages_dir);
     }
-    let modified_data = JSON.stringify({"messages": [{"height": 0, "data":req.body.message}]});
+    let modified_data = JSON.stringify({"messages": [{"height": 0, "date": req.body.date ,"data":req.body.message}]});
     fs.writeFileSync(messages_path, modified_data);
   }
 
