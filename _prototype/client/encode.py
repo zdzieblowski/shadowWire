@@ -50,33 +50,24 @@ if arguments.recipient:
     try:
       with open(arguments.recipient, "rb") as key_file:
         recipients_key = serialization.load_pem_public_key(key_file.read())
-      print(recipients_key)
     except:
       print("error reading recipients public key")
       exit()
 
-    message = input("enter message: ")
-    #message = bytes("%s" % input("enter message: "), "utf-8")
-    #print(message)
+
+    print(config.public_key)
+    message = '{"date":"%s", "data":"%s", "sender":"%s"}' % (datetime.now(), input("enter message: "), base64.b64encode(bytes(open(config.public_key, "r").read(),"utf-8")).decode("utf-8"))
 
     enc_message = []
-    iter = 0
 
     for chunk in chunks(message,446):
-      print(chunk)
       enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
-      iter = iter + 1
-
-    #enc_message = recipients_key.encrypt(message, padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))
 
     try:
-      query = {"message": enc_message, "date": str(datetime.now())}
-      #query = {"message": base64.b64encode(enc_message).decode("utf-8"), "date": str(datetime.now())}
+      query = {"message": enc_message}
       req = requests.post(url, json = query)
 
-      if req.status_code == 200:
-        print("{0} {1}".format(req.elapsed, req.text))
-      else:
+      if req.status_code != 200:
         print(req.status_code)
 
     except Exception as e:

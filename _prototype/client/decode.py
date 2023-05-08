@@ -16,6 +16,7 @@ from modules.common import tools
 
 url = "http://localhost:60606/read"
 t = tools()
+debug = False
 
 ###
 
@@ -40,13 +41,10 @@ else:
 
 ###
 
-print(config.private_key)
-
 if t.isFile(config.private_key):
   try:
     with open(config.private_key, "rb") as key_file:
       receivers_key = serialization.load_pem_private_key(key_file.read(), password = None)
-      print(receivers_key)
   except Exception as e:
     print(e)
     print("error reading receiver private key")
@@ -63,18 +61,23 @@ if t.isFile(config.private_key):
 
       for message in messages:
         dec_message = []
-        #print(message)
         try:
-          for d in message["data"]:
-            #print(d)
-            dec_message.append(receivers_key.decrypt(bytes(base64.b64decode(str(d))), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None)).decode("utf-8"))
-          if last != 0:
-            sys.stdout.write("\n")
-            last = 0
-          print("%s:\n%s\n" % (message["date"], "".join(dec_message)))
-        except:
-          sys.stdout.write(".")
-          last = 1
+          for d in range(0,len(message["data"])):
+            dec_message.append(receivers_key.decrypt(bytes(base64.b64decode(str(message["data"][d]))), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None)).decode("utf-8"))
+
+          decrypted = json.loads("".join(dec_message))
+
+          print("================================================================================")
+          print("DATE: %s" % decrypted["date"])
+          print("--------------------------------------------------------------------------------")
+          print(decrypted["data"])
+          print("--------------------------------------------------------------------------------")
+          print("SENDER PUBLIC KEY:\n%s" % decrypted["sender"])
+          print("================================================================================\n")
+        except Exception as e:
+          if debug:
+            print(e)
+            print("[x]")
 
     else:
       print(req.status_code)
