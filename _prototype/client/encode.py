@@ -63,7 +63,7 @@ if arguments.recipient:
 
     enc_message = []
 
-    for chunk in chunks(message,420):
+    for chunk in chunks(message, 222):
       enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
 
     try:
