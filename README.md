@@ -1,8 +1,12 @@
 # shadowWire
-SECURE COMMUNICATION NETWORK
+### SECURE COMMUNICATION NETWORK
 
 CLIENT DEPENDENCIES:
-``pip install cryptography requests``
+```
+pip install cryptography requests
+```
 
 SERVER DEPENDENCIES:
-``npm install express``
+```
+npm install express
+```
