@@ -56,11 +56,14 @@ if arguments.recipient:
 
 
     print(config.public_key)
-    message = '{"date":"%s", "data":"%s", "sender":"%s"}' % (datetime.now(), input("enter message: "), base64.b64encode(bytes(open(config.public_key, "r").read(),"utf-8")).decode("utf-8"))
+
+    message = '{"date": "%s", "data": "%s", "sender": "%s"}' % (datetime.now(), input("enter message: "), base64.b64encode(bytes(open(config.public_key, "r").read(),"utf-8")).decode("utf-8"))
+
+    print(message)
 
     enc_message = []
 
-    for chunk in chunks(message,446):
+    for chunk in chunks(message,420):
       enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
 
     try:
