@@ -10,3 +10,7 @@ SERVER DEPENDENCIES:
 ```
 npm install express
 ```
+<hr>
+Testing credits:<br>
+
+[Karolina Cianciara](https://github.com/cianciara)
