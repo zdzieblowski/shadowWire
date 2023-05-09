@@ -13,7 +13,7 @@ from modules.common import tools
 
 ###
 
-url = "http://localhost:60606/write"
+url = "http://bebok.tech:60606/write"
 t = tools()
 
 ###

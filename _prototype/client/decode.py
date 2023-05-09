@@ -14,7 +14,7 @@ from modules.common import tools
 
 ###
 
-url = "http://localhost:60606/read"
+url = "http://bebok.tech:60606/read"
 t = tools()
 debug = False
 
