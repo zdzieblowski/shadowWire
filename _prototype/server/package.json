@@ -3,6 +3,7 @@
     "version": "0.0.1",
     "description": "shadowWire server",
     "main": "server.js",
+    "type": "module",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -17,6 +18,9 @@
     },
     "homepage": "https://github.com/zdzieblowski/shadowWire#readme",
     "dependencies": {
-        "express": "^4.18.2"
+        "express": "^4.18.2",
+        "express-async-handler": "^1.2.0",
+        "lowdb": "^4.0.1",
+        "lowdb-node": "^3.0.2"
     }
 }
