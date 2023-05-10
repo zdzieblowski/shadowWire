@@ -8,7 +8,7 @@ pip install cryptography requests
 
 SERVER DEPENDENCIES:
 ```
-npm install express
+npm ci
 ```
 <hr>
 Testing credits:<br>
