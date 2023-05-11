@@ -1,12 +1,24 @@
 # shadowWire
-### SECURE COMMUNICATION NETWORK
+## SECURE COMMUNICATION NETWORK
 
-CLIENT DEPENDENCIES:
+### CLIENT DEPENDENCIES:
 ```
 pip install cryptography requests
 ```
 
-SERVER DEPENDENCIES:
+### CLIENT USAGE:
+```bash
+# INITIALIZE
+python initialize.py [-a ALIAS]
+
+# RECEIVE
+python decode.py [-a ALIAS]
+
+#TRANSMIT
+python encode.py -r RECIPIENTS_PUBLIC_KEY [-a ALIAS]
+```
+
+### SERVER DEPENDENCIES:
 ```
 npm ci
 ```
