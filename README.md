@@ -1,3 +1,5 @@
+<img src=".assets/shadowWire.svg" width="161">
+
 # shadowWire
 ## SECURE COMMUNICATION NETWORK
 
