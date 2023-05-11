@@ -3,17 +3,13 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 566.9 566.9" style="enable-background:new 0 0 566.9 566.9;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#1D1D1B;}
-	.st1{fill:url(#SVGID_1_);}
+	.st0{fill:#2F81F7;}
+	.st1{fill:#0D1117;}
 </style>
 <g id="Warstwa_1">
 	<rect class="st0" width="566.9" height="566.9"/>
 </g>
 <g id="Warstwa_2">
-	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="180.854" y1="398.3489" x2="417.6404" y2="161.5625">
-		<stop  offset="0" style="stop-color:#878787"/>
-		<stop  offset="1" style="stop-color:#9D9D9C"/>
-	</linearGradient>
 	<polygon class="st1" points="400.1,194.9 400.1,312.4 391.3,321.1 388.7,321.1 379.9,312.4 379.9,194.9 329,194.9 329,312.4 
 		320.3,321.1 317.7,321.1 308.9,312.4 308.9,194.9 258,194.9 258,312.4 249.2,321.1 246.7,321.1 237.9,312.4 237.9,258 187,258 
 		187,312.4 178.2,321.1 175.6,321.1 166.9,312.4 166.9,258 116,258 116,333.5 154.6,372 199.3,372 212.4,358.9 225.6,372 270.3,372 
