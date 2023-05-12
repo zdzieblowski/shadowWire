@@ -1,4 +1,4 @@
-<img src=".assets/shadowWire.svg" width="161">
+<img src=".assets/shadowWire.svg" width="178">
 
 # shadowWire
 ## SECURE COMMUNICATION NETWORK
