@@ -54,17 +54,41 @@ if arguments.recipient:
       print("error reading recipients public key")
       exit()
 
-
     print(config.public_key)
 
     message = '{"date": "%s", "data": "%s", "sender": "%s"}' % (datetime.now(), input("enter message: "), base64.b64encode(bytes(open(config.public_key, "r").read(),"utf-8")).decode("utf-8"))
 
-    print(message)
-
     enc_message = []
 
-    for chunk in chunks(message, 222):
-      enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
+    byte_count = 0
+    chunk = ""
+    position = 0
+
+    loop_it = True
+    time_to_write = False
+
+    while loop_it:
+      temp_char = message[position]
+      temp_char_bytes = temp_char.encode("utf=8")
+      temp_char_length = len(temp_char_bytes)
+
+      if byte_count + temp_char_length <= 400:
+        byte_count = byte_count + temp_char_length
+        chunk = "%s%s" % (chunk, temp_char)
+        position = position + 1
+      else:
+        time_to_write = True
+
+      if position == len(message):
+        time_to_write = True
+        loop_it = False
+
+      if time_to_write:
+        print(len(chunk))
+        enc_message.append(base64.b64encode(recipients_key.encrypt(bytes(chunk, "utf-8"), padding.OAEP(mgf = padding.MGF1(algorithm = hashes.SHA256()), algorithm = hashes.SHA256(), label = None))).decode("utf-8"))
+        byte_count = 0
+        chunk = ""
+        time_to_write = False
 
     try:
       query = {"message": enc_message}
@@ -72,6 +96,8 @@ if arguments.recipient:
 
       if req.status_code != 200:
         print(req.status_code)
+      else:
+        print("message sent")
 
     except Exception as e:
       print(e)
