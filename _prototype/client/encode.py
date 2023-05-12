@@ -72,7 +72,8 @@ if arguments.recipient:
       temp_char_bytes = temp_char.encode("utf=8")
       temp_char_length = len(temp_char_bytes)
 
-      if byte_count + temp_char_length <= 400:
+      ## 446 bytes frame size because 4096 bit key / 8 - 66 padding
+      if byte_count + temp_char_length <= 446:
         byte_count = byte_count + temp_char_length
         chunk = "%s%s" % (chunk, temp_char)
         position = position + 1
